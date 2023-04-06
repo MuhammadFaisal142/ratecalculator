@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        display: none;
+      }
+  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate calculator</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="calculator.js" class="js">
+  <script>
+
+    function inputFunction(id1, demo2) {
+
+      var num1 = document.getElementById(id1).value;
+      document.getElementById(demo2).innerHTML = num1;
+
+      trueRate('RateLeftResult', 'totalFuel', 'trueRateLeft'); 
+      RateperMile('RateLeftResult','demo1','ResultRateperMile');
+      trueRate('RateRightResult', 'totalRightFuel', 'trueRateRight');
+      RateperMile('RateRightResult','demo2','ResultRateperMileRight');
+      trueRate('2ndDemoRateLeftResult','2ndDemosecondleftTotalFuel','2ndDemoResulttrueRateLeft');
+      RateperMile('2ndDemoRateLeftResult','secondDemo1','2ndDemoResultRateperMile');
+      trueRate('2ndDemoRateRightResult','2ndsecondRightTotalFuel','2ndDemoResulttrueRateRight');
+      RateperMile('2ndDemoRateRightResult','secondRightDemo1','2ndDemoResultRateperMileRight');
+
+    }
+    function secondinputFunction(id2, id3, demo2) {
+
+      var num1 = document.getElementById(id2).value;
+      var num2 = document.getElementById(id3).value;
+      var sumTwoNumbers = parseInt(num1) + parseInt(num2);
+      document.getElementById(demo2).innerHTML = sumTwoNumbers;
+
+    }
+    function thirdinputFunction(id1, id2, id3, demo2) {
+      var num1 = document.getElementById(id1).value;
+      var num2 = document.getElementById(id2).value;
+      var num3 = document.getElementById(id3).value;
+
+      var sumThreeNumbers = parseInt(num1) + parseInt(num2) + parseInt(num3);
+      document.getElementById(demo2).innerHTML = sumThreeNumbers;
+   
+  
+    }
+    function rateFunction(id4, demo4) {
+      var num1 = document.getElementById(id4).value; //(b10/1000)*0.5
+      var num2 = parseInt(num1);
+      var total = (num2 / 1000) * 0.5;
+      // var tot=Math.round(total);
+      document.getElementById(demo4).innerHTML = total + "%";
+
+      fuelCost('demo1', 'g2result', 'g3result', 'demo3', 'totalFuel');
+      fuelCost('demo2', 'g2result', 'g3result', 'demo4', 'totalRightFuel');
+
+      fuelCost('secondDemo1', 'g2result', 'g3result', '2ndemo3', '2ndDemosecondleftTotalFuel');
+      fuelCost('secondRightDemo1', 'g2result', 'g3result', '2ndemo4', '2ndsecondRightTotalFuel');
+      
+    }
+
+
+    function trueRate(RateLftRslt, totFuel, trRatRght) {
+      var b9 = document.getElementById(RateLftRslt).innerHTML;
+      var b12 = document.getElementById(totFuel).innerHTML;
+      var result = b9 - b12;
+      document.getElementById(trRatRght).innerHTML = result;
+
+      trueDayRate('trueRateLeft','DayLeftResult','resultTrueDayRate');
+      trueDayRate('trueRateRight','DayRightResult','resultTrueDayRateRight');
+      TrueRPM('demo1','trueRateLeft','resultTrueRPM');
+      TrueRPM('demo2','trueRateRight','resultTrueRPMRight');
+      trueDayRate('2ndDemoResulttrueRateLeft','2ndDemoDayLeftResult','2ndDemoresultTrueDayRate');
+      TrueRPM('secondDemo1','2ndDemoResulttrueRateLeft','2ndDemoresultTrueRPM');
+      trueDayRate('2ndDemoResulttrueRateRight','2ndDemoDayRightResult','2ndSDemoresultTrueDayRateRight');
+      TrueRPM('secondRightDemo1','2ndDemoResulttrueRateRight','2ndresultTrueRPMRight');
+
+    }
+
+    function trueDayRate(trRatLft,DyLeftRslt,rsltTrueDyRte) {
+      var b17 = document.getElementById(trRatLft).innerHTML;
+      var b13 = document.getElementById(DyLeftRslt).innerHTML;
+      var r1 = b17 / b13;
+      var result = r1.toFixed(2);
+      document.getElementById(rsltTrueDyRte).innerHTML = result;
+    }
+    function TrueRPM(dem1,trRteLft,rsltTrRPM) {
+      var b8 = document.getElementById(dem1).innerHTML;
+      var b17 = document.getElementById(trRteLft).innerHTML;
+      var r1 = b17 / b8;
+      var result = r1.toFixed(2);
+      document.getElementById(rsltTrRPM).innerHTML = result;
+
+      TotalRatePerMile();
+      TotalRatePerDay();
+      TotalRate();
+    }
+
+
+
+    function RateperMile(RatLftRslt,dm1,RsltRatprMile) {
+      var b9 = document.getElementById(RatLftRslt).innerHTML;
+      var b8 = document.getElementById(dm1).innerHTML;
+      var r1 = b9 / b8;
+      var result = r1.toFixed(2);
+      document.getElementById(RsltRatprMile).innerHTML = result;
+
+    }
+
+    function fuelCost(seconddemo1, g2Result, g3Result, demo3_2nd, secondtotalFuel) {
+      // B8/(G2*(1-B11))*G3
+      var b8 = document.getElementById(seconddemo1).innerHTML;
+
+      var g2 = document.getElementById(g2Result).innerHTML;
+      var g3 = document.getElementById(g3Result).innerHTML;
+      var b11 = document.getElementById(demo3_2nd).innerHTML;
+      var b1 = parseInt(b11);
+      var b2 = b1 / 100;
+      var r1 = (1 - b2);
+      var r2 = g2 * r1;
+      var r3 = b8 / r2;
+      var r4 = r3 * g3;
+      var r5 = r4.toFixed(2);
+      document.getElementById(secondtotalFuel).innerHTML = r5;
+    }
+    function TotalRatePerMile(){
+      var B15=document.getElementById("resultTrueRPM").innerHTML;
+      var C15=document.getElementById("resultTrueRPMRight").innerHTML;
+      var F15=document.getElementById("2ndDemoresultTrueRPM").innerHTML;
+      var G15=document.getElementById("2ndresultTrueRPMRight").innerHTML;
+      var r1=Math.max(B15,C15);
+      var r2=Math.max(F15,G15);
+      var avg=(r1+r2)/2;
+
+       document.getElementById("TotalRatePerMileResult").innerHTML = "$"+avg;
+    }
+    function TotalRatePerDay(){
+      var B16=document.getElementById("resultTrueDayRate").innerHTML;
+      var C16=document.getElementById("resultTrueDayRateRight").innerHTML;
+      var F16=document.getElementById("2ndDemoresultTrueDayRate").innerHTML;
+      var G16=document.getElementById("2ndSDemoresultTrueDayRateRight").innerHTML;
+      var r1=Math.max(B16,C16);
+      var r2=Math.max(F16,G16);
+      var avg=(r1+r2)/2;
+
+      var result = avg.toFixed(2);
+
+       document.getElementById("TotalRatePerDay").innerHTML = "$"+result;
+    }
+    function TotalRate(){
+      var B17=document.getElementById("trueRateLeft").innerHTML;
+      var C17=document.getElementById("trueRateRight").innerHTML;
+      var F17=document.getElementById("2ndDemoResulttrueRateLeft").innerHTML;
+      var G17=document.getElementById("2ndDemoResulttrueRateRight").innerHTML;
+      var r1=Math.max(B17,C17);
+      var r2=Math.max(F17,G17); 
+      var sum=r1+r2;
+
+       document.getElementById("TotalRate").innerHTML = "$"+sum;
+    }
+  </script>
+</head>
+
+<body>
+  <!-- NavBar in rate calculator -->
+  <div class="container">
+    <div class=" container heading">
+      <h4>Rate Calculator</h4>
+    </div>
+
+
+
+    <div class="display">
+      <table class="table1">
+        <tr>
+          <td class="average">Enter your average miles per gallon:</td>
+          <td class="total"><input type="number" placeholder="0" id="g2id" oninput="inputFunction('g2id','g2result')"
+              class="style_js" />
+            <div id="g2result" style="display: none;"></div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="average">Enter current gas price:</td>
+          <td class="total"><input type="number" placeholder="0" id="g3" oninput="inputFunction('g3','g3result')"
+              class="style_js" />
+            <div id="g3result" style="
+            display: none;"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+
+
+    <!--  first table in calculator -->
+    <!--  first table in calculator -->
+
+    <!--  first table in calculator -->
+
+    <div class="flex">
+      <table class="table2 table-bordered">
+
+        <tbody>
+          <thead>
+            <tr>
+              <th style="width: 90px;">1st Trip</th>
+              <th>Load #1</th>
+              <th>Load #2</th>
+            </tr>
+          </thead>
+          <tr>
+            <td class="alignment">Trip Miles</td>
+            <td class="coloryellow"><input type="number" id="firstInput" oninput="inputFunction('firstInput','demo1')"
+                placeholder="0" class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" id="firstRightInput"
+                oninput="inputFunction('firstRightInput','demo2')" placeholder="0" name="displayResult"
+                class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Dead Head / Pickup</td>
+            <td class="coloryellow"><input type="number" id="2ndInput"
+                oninput="secondinputFunction('firstInput','2ndInput','demo1')" placeholder="0" name="displayResult"
+                class="style_js" /></td>
+
+            <td class="coloryellow">
+              <input type="number" placeholder="0" id="secondRightInput" name="displayResult"
+                oninput="secondinputFunction('firstRightInput','secondRightInput','demo2')" class="style_js" />
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Dead Head / Delivery</td>
+            <td class="coloryellow"><input type="number" id="3rdInput"
+                oninput="thirdinputFunction('firstInput','2ndInput','3rdInput','demo1')" placeholder="0"
+                name="displayResult" class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="thirdRightInput"
+                oninput="thirdinputFunction('firstRightInput','secondRightInput','thirdRightInput' , 'demo2')"
+                class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Total Miles</td>
+            <td class="lightcolor">
+              <div id="demo1"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="demo2"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Rate</td>
+            <td class="coloryellow"><input type="number" placeholder="0" id="Rateleft"
+                oninput="inputFunction('Rateleft','RateLeftResult')" class="style_js" />
+              <div id="RateLeftResult" style="display: none;"></div>
+            </td>
+
+            <td class="coloryellow">
+              <input type="number" placeholder="0" id="RateRight"
+                oninput="inputFunction('RateRight','RateRightResult')" class="style_js" />
+              <div id="RateRightResult" style="display: none;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Weight</td>
+            <td class="coloryellow"><input type="number" id="2ndrateLeft" oninput="rateFunction('2ndrateLeft','demo3')"
+                placeholder="0" name="displayResult" class="style_js" /></td>
+
+            <td class="coloryellow"> <input type="number" id="2ndrateRight"
+                oninput="rateFunction('2ndrateRight','demo4')" placeholder="0" class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Fuel Reduction</td>
+            <td class="lightcolor">
+              <div id="demo3"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="demo4"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Fuel Cost</td>
+            <td class="lightcolor">
+              <div id="totalFuel"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="totalRightFuel"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Days</td>
+            <td class="coloryellow"><input type="number" placeholder="0" id="DayLeft"
+                oninput="inputFunction('DayLeft','DayLeftResult')" class="style_js" />
+              <div id="DayLeftResult" style="display: none;"></div>
+            </td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="DayRight"
+                oninput="inputFunction('DayRight','DayRightResult')" class="style_js" />
+              <div id="DayRightResult" style="display: none;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Rate Per Mile</td>
+            <td class="lightcolor">
+              <div id="ResultRateperMile"></div>
+            </td>
+            <td class="lightcolor"> <div id="ResultRateperMileRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True RPM</td>
+            <td class="grey border1">
+              <div id="resultTrueRPM"></div>
+            </td>
+            <td class="colordark border1"><div id="resultTrueRPMRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True Day Rate</td>
+            <td class="grey border1">
+              <div id="resultTrueDayRate"></div>
+            </td>
+            <td class="colordark border1"><div id="resultTrueDayRateRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True Rate</td>
+            <td class="grey border1">
+              <div id="trueRateLeft"></div>
+            </td>
+            <td class="colordark border1">
+              <div id="trueRateRight"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- second table  -->
+    <!-- second table  -->
+
+    <!-- second table  -->
+
+    <div class="flex1">
+      <table class="table2 table-bordered" style="width: 228px;">
+
+        <tbody>
+          <thead>
+            <tr>
+              <th style="width: 90px;">1st Trip</th>
+              <th>Load #1</th>
+              <th>Load #2</th>
+            </tr>
+          </thead>
+          <tr>
+            <td class="alignment">Trip Miles</td>
+            <td class="coloryellow"><input type="number" id="2ndDemofirstInput"
+                oninput="inputFunction('2ndDemofirstInput','secondDemo1')" placeholder="0" class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" id="2ndDemofirstRightInput"
+                oninput="inputFunction('2ndDemofirstRightInput','secondRightDemo1')" placeholder="0"
+                name="displayResult" class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Dead Head / Pickup</td>
+            <td class="coloryellow"><input type="number" id="2ndDemo2ndInput"
+                oninput="secondinputFunction('2ndDemofirstInput','2ndDemo2ndInput','secondDemo1')" placeholder="0"
+                name="displayResult" class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemosecondRightInput"
+                name="displayResult"
+                oninput="secondinputFunction('2ndDemofirstRightInput','2ndDemosecondRightInput','secondRightDemo1')"
+                class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Dead Head / Delivery</td>
+            <td class="coloryellow"><input type="number" id="2ndDemo3rdInput"
+                oninput="thirdinputFunction('2ndDemofirstInput','2ndDemo2ndInput','2ndDemo3rdInput','secondDemo1')"
+                placeholder="0" name="displayResult" class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemothirdRightInput"
+                oninput="thirdinputFunction('2ndDemofirstRightInput','2ndDemosecondRightInput','2ndDemothirdRightInput' , 'secondRightDemo1')"
+                class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Total Miles</td>
+            <td class="lightcolor">
+              <div id="secondDemo1"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="secondRightDemo1"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Rate</td>
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemoRateleft"
+              oninput="inputFunction('2ndDemoRateleft','2ndDemoRateLeftResult')" class="style_js" />
+            <div id="2ndDemoRateLeftResult" style="display: none;"></div></td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemoRateRight"
+              oninput="inputFunction('2ndDemoRateRight','2ndDemoRateRightResult')" class="style_js" />
+            <div id="2ndDemoRateRightResult" style="display: none;"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment">Weight</td>
+            <td class="coloryellow"><input type="number" id="2ndDemo2ndrateLeft"
+                oninput="rateFunction('2ndDemo2ndrateLeft','2ndemo3')" placeholder="0" name="displayResult"
+                class="style_js" /></td>
+
+            <td class="coloryellow"><input type="number" id="2ndDemo2ndrateRight"
+                oninput="rateFunction('2ndDemo2ndrateRight','2ndemo4')" placeholder="0" class="style_js" /></td>
+          </tr>
+          <tr>
+            <td class="alignment">Fuel Reduction</td>
+            <td class="lightcolor">
+              <div id="2ndemo3"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="2ndemo4"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Fuel Cost</td>
+            <td class="lightcolor">
+              <div id="2ndDemosecondleftTotalFuel"></div>
+            </td>
+            <td class="lightcolor">
+              <div id="2ndsecondRightTotalFuel"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="alignment">Days</td>
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemoDayLeft"
+              oninput="inputFunction('2ndDemoDayLeft','2ndDemoDayLeftResult')" class="style_js" />
+            <div id="2ndDemoDayLeftResult" style="display: none;"></div></td>
+
+            <td class="coloryellow"><input type="number" placeholder="0" id="2ndDemoDayRight"
+              oninput="inputFunction('2ndDemoDayRight','2ndDemoDayRightResult')" class="style_js" />
+            <div id="2ndDemoDayRightResult" style="display: none;"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment">Rate Per Mile</td>
+            <td class="lightcolor"><div id="2ndDemoResultRateperMile"></div></td>
+            <td class="lightcolor"><div id="2ndDemoResultRateperMileRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True RPM</td>
+            <td class="grey border1"><div id="2ndDemoresultTrueRPM"></div></td>
+            <td class="colordark border1"><div id="2ndresultTrueRPMRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True Day Rate</td>
+            <td class="colordark border1"><div id="2ndDemoresultTrueDayRate"></div></td>
+            <td class="grey border1"><div id="2ndSDemoresultTrueDayRateRight"></div></td>
+          </tr>
+          <tr>
+            <td class="alignment colordark border1">True Rate</td>
+            <td class="colordark border1"><div id="2ndDemoResulttrueRateLeft"></div></td>
+            <td class="grey border1"><div id="2ndDemoResulttrueRateRight"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <table class="table3">
+      <tr>
+        <td class="grey table3alignment">Total Rate Per Mile</td>
+        <td class="grey table3alignment">Total Rate Per Day</td>
+        <td class="grey table3totalalignment">Total Rate</td>
+      </tr>
+      <tr>
+        <td class="grey table3alignment"><div id="TotalRatePerMileResult"></div></td>
+        <td class="grey table3alignment"><div id="TotalRatePerDay"></div></td>
+        <td class="grey table3totalalignment"><div id="TotalRate"></div></td>
+      </tr>
+
+    </table>
+  </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+.heading {
+    text-align: center;
+    background-color: black;
+    color: white;
+    width: 480px;
+    margin-inline-start: 116px;
+
+}
+
+.total {
+    border: 1px solid black !important;
+
+    background-color: #ffff88;
+    width: 15%;
+    text-align: center;
+
+}
+
+.display {
+    margin-inline-start: 116px;
+    width: 480px;
+}
+
+.average {
+    border: 1px solid lightblue;
+    width: 900px;
+    text-align: right;
+}
+
+.table2 thead tr,
+th {
+    color: white;
+    background-color: black;
+    border: 1px solid black !important;
+    text-align: center;
+}
+
+.table3,
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.table3 {
+    width: 481px;
+    /* border-collapse: collapse; */
+    margin-inline-start: 116px;
+    margin-top: 10px;
+}
+
+.alignment {
+    width: 90px;
+    height: 40px;
+    text-align: center;
+    max-height: fit-content;
+    font-weight: bold;
+    color: black;
+}
+
+.coloryellow {
+    background-color: #ffff88;
+    width: 70px;    
+}
+
+.lightcolor {
+    background-color: #f3f3f3;
+}
+
+.grey {
+    background-color: #57bb8a;
+}
+
+.colordark {
+    background-color: #d9ead3;
+}
+
+.flex {
+    padding-inline-start: 116px;
+    float: left;
+    margin-inline-end: 19px;
+}
+.table-bordered {
+    border: 1px solid #000;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: -1;
+    border-collapse: inherit;
+}
+.border1{
+    border: 1px solid black !important;
+}
+
+/* input fieldset css */
+.style_js{
+    background: transparent;
+    width: inherit;
+    border: none;
+    text-align: center;
+    height: 39px;
+    width: 70px;
+    /* display: none; */
+}
+.table3alignment{
+    width: 180px !important;
+}
